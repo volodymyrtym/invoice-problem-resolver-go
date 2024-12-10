@@ -2,7 +2,7 @@ package create
 
 import (
 	"errors"
-	"ipr/modules/idgenerator"
+	"ipr/common"
 	"ipr/modules/user/service/password"
 	"net/mail"
 )
@@ -18,7 +18,7 @@ func NewUserCreateHandler(repo *UserCreateRepository, passwordValidator *passwor
 
 func (handler *UserCreateHandler) execute(req *createUserRequest) (string, error) {
 	if err := handler.validate(req); err != nil {
-		return "", err
+		return "", common.NewInvalidInputError(err.Error())
 	}
 
 	hashedPassword, err := password.HashPassword(req.Password)
@@ -26,7 +26,7 @@ func (handler *UserCreateHandler) execute(req *createUserRequest) (string, error
 		return "", err
 	}
 
-	id, _ := idgenerator.GenerateUserID()
+	id, _ := common.GenerateGuid()
 	err = handler.repo.create(id, hashedPassword, req.Email)
 	if err != nil {
 		return "", err

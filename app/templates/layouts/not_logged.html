@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    {% block styles %}{% endblock %}
+    <title>{% block title %}Invoice Problem Resolver{% endblock %}</title>
+</head>
+<body>
+<nav class="pure-menu pure-menu-horizontal">
+    <div class="pure-menu-heading">
+        <img src="/img/logo.png" alt="Logo" style="height: 55px; vertical-align: middle; margin-right: 10px;">
+        <span>Invoice Problem Resolver</span>
+    </div>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item">
+            <a href="#profile" class="pure-menu-link">Contact</a>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>&copy; 2024 Invoice Problem Resolver. All rights reserved.</p>
+</footer>
+
+<script type="module" src="/build/js/stimulus-app.js" defer></script>
+</body>
+</html>

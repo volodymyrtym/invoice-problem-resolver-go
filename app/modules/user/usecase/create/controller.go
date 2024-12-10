@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func Controller(handler *UserCreateHandler) http.HandlerFunc {
+func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		req := &createUserRequest{
 			Password: r.FormValue("password"),

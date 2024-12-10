@@ -16,7 +16,7 @@ func NewUserCreateRepository(db *sql.DB, ctx context.Context) *UserCreateReposit
 }
 
 func (r *UserCreateRepository) create(id string, email string, hashedPassword string) error {
-	query := "INSERT INTO users (id, password, email) VALUES (?, ?, ?)"
+	query := "INSERT INTO user_users (id, password, email) VALUES (?, ?, ?)"
 	_, err := r.db.ExecContext(r.ctx, query, id, hashedPassword, email)
 	if err != nil {
 		return err
@@ -26,7 +26,7 @@ func (r *UserCreateRepository) create(id string, email string, hashedPassword st
 }
 
 func (r *UserCreateRepository) isExists(email string) (bool, error) {
-	query := "SELECT 1 FROM users WHERE email = ? LIMIT 1"
+	query := "SELECT 1 FROM user_users WHERE email = ? LIMIT 1"
 	var exists int
 	err := r.db.QueryRowContext(r.ctx, query, email).Scan(&exists)
 	if err != nil {

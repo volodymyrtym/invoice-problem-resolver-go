@@ -5,22 +5,25 @@ import (
 	"database/sql"
 	"ipr/modules/user/service/password"
 	"ipr/modules/user/usecase/create"
+	"ipr/modules/user/usecase/login"
 )
 
 type Dependencies struct {
-	Repo              *create.UserCreateRepository
-	PasswordValidator *password.Validator
-	Handler           *create.UserCreateHandler
+	CreateHandler *create.UserCreateHandler
+	LoginHandler  *login.UserLoginHandler
 }
 
 func NewDependencies(db *sql.DB, ctx context.Context) *Dependencies {
-	passwordValidator := password.NewPasswordValidator()
-	repo := create.NewUserCreateRepository(db, ctx)
-	handler := create.NewUserCreateHandler(repo, passwordValidator)
+	createPasswordValidator := password.NewPasswordValidator()
+
+	createRepo := create.NewUserCreateRepository(db, ctx)
+	createHandler := create.NewUserCreateHandler(createRepo, createPasswordValidator)
+
+	loginRepo := login.NewUserLoginRepository(db, ctx)
+	loginHandler := login.NewUserLoginHandler(loginRepo, createPasswordValidator)
 
 	return &Dependencies{
-		Repo:              repo,
-		PasswordValidator: passwordValidator,
-		Handler:           handler,
+		CreateHandler: createHandler,
+		LoginHandler:  loginHandler,
 	}
 }
