@@ -6,8 +6,6 @@ import (
 	"net/http"
 )
 
-const userIDKey = "userId"
-
 func RenderController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := map[string]interface{}{
