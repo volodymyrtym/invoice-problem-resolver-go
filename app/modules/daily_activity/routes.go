@@ -3,7 +3,7 @@ package daily_activity
 import (
 	"ipr/infra/router"
 	"ipr/infra/session"
-	"ipr/modules/daily-activity/usecase/list"
+	"ipr/modules/daily_activity/usecase/list"
 	"net/http"
 )
 
