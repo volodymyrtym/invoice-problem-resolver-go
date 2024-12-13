@@ -2,7 +2,8 @@ package login
 
 import (
 	"encoding/json"
-	"ipr/common"
+	"ipr/infra/session"
+	"ipr/infra/template"
 	"net/http"
 )
 
@@ -11,11 +12,11 @@ func RenderController() http.HandlerFunc {
 		data := map[string]interface{}{
 			"message": "Welcome to Invoice Problem Resolver",
 		}
-		common.RenderTemplate(w, "pages/login/login.html", data)
+		template.RenderTemplate(w, "pages/login/login.html", data)
 	}
 }
 
-func HandlerController(handler *UserLoginHandler, sessionManager *common.SessionManager) http.HandlerFunc {
+func HandlerController(handler *UserLoginHandler, sm *session.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		req := &createCommand{
 			Password: r.FormValue("password"),
@@ -28,7 +29,7 @@ func HandlerController(handler *UserLoginHandler, sessionManager *common.Session
 			return
 		}
 
-		sessionManager.SetUser(w, r, id)
+		sm.SetUser(w, r, id)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

@@ -4,15 +4,15 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"ipr/middleware"
-	middlaware "ipr/middleware/http"
+	"ipr/infra/router"
+	"ipr/infra/session"
+	"ipr/infra/template"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
-	"ipr/common"
 	"ipr/modules/user"
 )
 
@@ -30,22 +30,20 @@ func main() {
 
 	isDev := os.Getenv("APP_ENV") == "dev"
 
-	sessionManager := common.NewSessionManager("./sessions", "super-secret-key", "ipr-session")
-	httpMiddlewares := []middleware.Middleware{
-		middlaware.ErrorMiddleware,
-	}
-	router := common.NewRouter(httpMiddlewares...)
-	common.InitializeRenderer("./templates", isDev)
+	sessionManager := session.NewSessionManager("./sessions", os.Getenv("SESSION_SECRET_KEY"), os.Getenv("SESSION_KEY"))
+
+	router.InitializeRouter()
+	template.InitializeRenderer("./templates", isDev)
 	ctx := context.Background()
 
 	// > module user
 	userDeps := user.NewDependencies(db, ctx)
-	user.RegisterRoutes(userDeps, router, sessionManager)
+	user.RegisterRoutes(userDeps, sessionManager)
 	// < module user
 
 	// Start the HTTP server
 	log.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", router.GetChiRouter(sessionManager)))
 }
 
 func initDB() (*sql.DB, error) {

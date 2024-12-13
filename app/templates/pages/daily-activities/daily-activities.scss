@@ -1,0 +1,188 @@
+@use '../layouts/logged';
+
+main {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.statistics-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  ul {
+    li{
+      padding-bottom: 5px;
+    }
+    li.title{
+      font-weight: bold;
+      padding-top: 10px;
+      padding-bottom: 5px;
+      list-style: none;
+    }
+    li.previous{
+
+    }
+  }
+  h2 {
+    margin-bottom: 14px;
+    color: #228b22;
+  }
+
+  .divider {
+    border-bottom: 1px solid #d4d4d4;
+    margin: 15px 0;
+  }
+}
+
+.activity-container {
+  padding-left: 10px;
+
+  button {
+    font-weight: bold;
+  }
+
+  button.add-activity-button {
+      background-color: #ff7f50;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+
+      &:hover {
+        background-color: #ff6347;
+      }
+  }
+
+
+  .activity-group-header {
+    .date {
+      color: #777;
+    }
+  }
+
+  .activity-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    color: #555;
+  }
+
+  .activity-group {
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .activity-group-header {
+      background-color: #f8f9fa;
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  .activity-item {
+    align-items: center;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    span {
+      padding-right: 4px;
+    }
+
+    &:hover {
+      background-color: rgb(210, 228, 237, 0.3);
+
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+  .project{
+    color: grey;
+  }
+  .actions {
+    span {
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: transform 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        color: #ff6347;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .add-small-button {
+    background-color: #85bb85;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+
+    &:hover {
+      background-color: #76a076;
+    }
+  }
+}
+
+
+/* add activity */
+.add-activity-container{
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+.add-activity-container {
+  form {
+
+
+    /* Перша колонка: Задизейблене поле "Default" */
+    .disabled-input {
+      background-color: #f5f5f5; // Світлий фон
+      color: #888888; // Світлий текст
+      cursor: not-allowed;
+      border: 1px solid #ddd; // Сірий обвід
+      padding: 8px;
+    }
+
+  .add-input-container{
+    display: flex;
+    gap: 15px; // Відступи між колонками
+    align-items: center;
+  }
+    select,
+    input[type="text"],
+    input[type="date"],
+    input[type="time"] {
+      border: 1px solid #007b33; // Зелений обв
+      padding: 8px;
+
+      &::placeholder {
+        color: #999999; // Сірий плейсхолдер
+      }
+
+      &:focus {
+        border-color: #00a74f; // Світліший зелений при фокусі
+        box-shadow: 0 0 5px rgba(0, 165, 79, 0.5);
+        outline: none;
+      }
+    }
+  }
+}
+
+
+
+

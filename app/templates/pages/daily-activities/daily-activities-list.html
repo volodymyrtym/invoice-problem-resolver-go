@@ -1,0 +1,24 @@
+{% extends "layouts/logged.twig" %}
+
+{% block title %}Track your activities{% endblock %}
+
+
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset_hash('/build/css/daily-activities.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="pure-g" data-action="activityCreated->statistics#refreshStatistics activityCreated->list#refreshList">
+    <div class="pure-u-1-1 pure-u-md-6-24">
+        {% include "daily-activities/index/daily-activities-statistics.twig" %}
+    </div>
+    <!-- Activities Section -->
+    <div class="pure-u-1-1 pure-u-md-18-24">
+        <div class="activity-container">
+            {% include "daily-activities/index/daily-activities-create.twig" %}
+            {% include "daily-activities/index/daily-activities-list.twig" %}
+        </div>
+    </div>
+</main>
+{% endblock %}

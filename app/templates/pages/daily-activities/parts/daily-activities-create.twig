@@ -1,0 +1,56 @@
+<div class="add-activity-container" data-controller="daily-activity-create">
+    <form class="pure-form pure-g" data-action="submit->daily-activity-create#handleSubmit">
+        <div class="pure-u-1-1 pure-u-md-20-24 add-input-container">
+            <div class="pure-u-1 pure-u-md-2-24">
+                <select class="pure-input-1 disabled-input" disabled>
+                    <option value="default">Default</option>
+                </select>
+            </div>
+            <div class="pure-u-1 pure-u-md-12-24">
+                <input
+                        type="text"
+                        name="description"
+                        maxlength="256"
+                        placeholder="Activity description"
+                        class="pure-input-1"
+                        required
+                />
+            </div>
+            <div class="pure-u-1 pure-u-md-9-24 date-time-container">
+                <input
+                        type="date"
+                        name="date"
+                        placeholder="Select date"
+                        class="pure-u-8-24 date-input"
+                        required
+                />
+                <input
+                        type="time"
+                        name="dateTimeFrom"
+                        placeholder="From"
+                        class="pure-u-7-24 time-input"
+                        required
+                />
+                <input
+                        type="time"
+                        name="dateTimeTo"
+                        placeholder="To"
+                        class="pure-u-7-24 time-input"
+                        required
+                />
+            </div>
+        </div>
+
+        <div class="pure-u-1 pure-u-md-4-24 add-activity-button-container">
+            <div class="pure-u-1 add-controls">
+                <button
+                        type="submit"
+                        class="pure-button button-primary button-large save-activity-button"
+                >
+                    + Add
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="status-message" data-daily-activity-create-target="statusMessage"></div>
+</div>

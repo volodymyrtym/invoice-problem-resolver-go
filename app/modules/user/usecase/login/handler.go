@@ -1,8 +1,8 @@
 package login
 
 import (
-	"ipr/common"
 	"ipr/modules/user/service/password"
+	"ipr/shared"
 )
 
 type UserLoginHandler struct {
@@ -17,11 +17,11 @@ func NewUserLoginHandler(repo *UserLoginRepository, passwordValidator *password.
 func (handler *UserLoginHandler) execute(command *createCommand) (string, error) {
 	user, _ := handler.repo.find(command.Email)
 	if user == nil {
-		return "", common.NewInvalidInputError("unknown email")
+		return "", shared.NewInvalidInputError("unknown email")
 	}
 
 	if password.VerifyPassword(command.Password, user.HashedPassword) == false {
-		return "", common.NewInvalidInputError("wrong password")
+		return "", shared.NewInvalidInputError("wrong password")
 	}
 
 	return user.Id, nil
