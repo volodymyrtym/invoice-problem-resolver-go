@@ -1,9 +1,8 @@
-package app
+package main
 
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"ipr/infra/router"
 	"ipr/infra/session"
 	"ipr/infra/template"
@@ -51,24 +50,7 @@ func main() {
 }
 
 func initDB() (*sql.DB, error) {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-
-	if dbHost == "" || dbPort == "" || dbUser == "" || dbPassword == "" || dbName == "" {
-		return nil, errors.New("some obligatory env db parameters missing")
-	}
-
-	connStr := "host=" + dbHost +
-		" port=" + dbPort +
-		" user=" + dbUser +
-		" password=" + dbPassword +
-		" dbname=" + dbName +
-		" sslmode=disable"
-
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", os.Getenv("DB_CONNECTION"))
 	if err != nil {
 		return nil, err
 	}

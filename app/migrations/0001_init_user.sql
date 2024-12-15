@@ -1,3 +1,4 @@
+-- +goose Up
 CREATE TABLE user_users
 (
 id            UUID NOT NULL PRIMARY KEY,
@@ -9,3 +10,6 @@ password      VARCHAR(60)  NOT NULL
 
 CREATE UNIQUE INDEX user_users_email_idx
 ON user_users (email);
+
+-- +goose Down
+DROP TABLE IF EXISTS user_users;
