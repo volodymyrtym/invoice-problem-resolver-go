@@ -6,10 +6,10 @@ import (
 	"net/http"
 )
 
-func Controller(a *authorization.Auth, repo *repository.DailyActivityRepository) http.HandlerFunc {
+func Controller(repo *repository.DailyActivityRepository) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
-		err := a.ErrorOnNotAuthorized(w, r, id)
+		err := authorization.ErrorOnNotAuthorized(w, r, &id)
 		if err != nil {
 			return
 		}

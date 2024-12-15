@@ -20,3 +20,7 @@ func UserSessionIdMiddleware(sm *http2.SessionManager) func(http.Handler) http.H
 		})
 	}
 }
+
+func GetUserIdFromRequest(r *http.Request) string {
+	return r.Context().Value("user").(string)
+}

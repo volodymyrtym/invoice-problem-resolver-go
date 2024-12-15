@@ -2,17 +2,14 @@ package daily_activity
 
 import (
 	"ipr/infra/router"
-	"ipr/infra/session"
+	"ipr/modules/daily_activity/usecase/create"
+	"ipr/modules/daily_activity/usecase/delete"
 	"ipr/modules/daily_activity/usecase/list"
 	"net/http"
 )
 
-func RegisterRoutes(deps *Dependencies, sm *session.SessionManager) {
-	router.AddRoute("/daily-activities", http.MethodGet, list.Controller())
-	router.AddRoute("/daily-activities", http.MethodDelete, func(writer http.ResponseWriter, request *http.Request) {
-
-	})
-	router.AddRoute("/daily-activities", http.MethodPost, func(writer http.ResponseWriter, request *http.Request) {
-
-	})
+func RegisterRoutes(deps *Dependencies) {
+	router.AddRoute("/daily-activities", http.MethodGet, list.Controller(deps.listHandler))
+	router.AddRoute("/daily-activities", http.MethodDelete, delete.Controller(deps.repo))
+	router.AddRoute("/daily-activities", http.MethodPost, create.Controller(deps.createHandler))
 }

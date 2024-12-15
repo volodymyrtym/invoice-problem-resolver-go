@@ -12,11 +12,16 @@ type UserCreateHandler struct {
 	passwordValidator *password.Validator
 }
 
+type command struct {
+	Email    string
+	Password string
+}
+
 func NewUserCreateHandler(repo *UserCreateRepository, passwordValidator *password.Validator) *UserCreateHandler {
 	return &UserCreateHandler{repo: repo, passwordValidator: passwordValidator}
 }
 
-func (handler *UserCreateHandler) execute(req *createUserRequest) (string, error) {
+func (handler *UserCreateHandler) execute(req *command) (string, error) {
 	if err := handler.validate(req); err != nil {
 		return "", shared.NewInvalidInputError(err.Error())
 	}
@@ -35,7 +40,7 @@ func (handler *UserCreateHandler) execute(req *createUserRequest) (string, error
 	return id, nil
 }
 
-func (handler *UserCreateHandler) validate(req *createUserRequest) error {
+func (handler *UserCreateHandler) validate(req *command) error {
 	err := handler.passwordValidator.Validate(req.Password)
 	if err != nil {
 		return err

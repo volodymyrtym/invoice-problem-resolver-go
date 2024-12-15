@@ -6,7 +6,7 @@ CREATE TABLE daily_activity_daily_activities
     end_at      TIMESTAMP(0) NOT NULL,
     description TEXT NOT NULL,
     created_at  TIMESTAMP(0) NOT NULL DEFAULT NOW(),
-    project     UUID DEFAULT NULL
+    project     VARCHAR 16 DEFAULT NULL
 );
 
 CREATE INDEX user_created_at

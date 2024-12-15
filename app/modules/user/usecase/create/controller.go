@@ -2,19 +2,20 @@ package create
 
 import (
 	"encoding/json"
+	"ipr/infra/router/middleware"
 	"net/http"
 )
 
 func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req := &createUserRequest{
+		req := &command{
 			Password: r.FormValue("password"),
 			Email:    r.FormValue("email"),
 		}
 
 		id, err := handler.execute(req)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			r = middleware.AddErrorToContext(r, err)
 			return
 		}
 

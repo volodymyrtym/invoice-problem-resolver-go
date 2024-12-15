@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var auth *Auth
+
 type Auth struct {
 	repo *repository.DailyActivityRepository
 }
@@ -16,7 +18,7 @@ func NewAuth(repo *repository.DailyActivityRepository) *Auth {
 	}
 }
 
-func (a *Auth) ErrorOnNotAuthorized(w http.ResponseWriter, r *http.Request, entityID string) error {
+func ErrorOnNotAuthorized(w http.ResponseWriter, r *http.Request, entityID *string) error {
 	userId, ok := r.Context().Value("user").(string)
 	if !ok || userId == "" {
 		http.Error(w, "no user in session", http.StatusUnauthorized)
@@ -24,7 +26,11 @@ func (a *Auth) ErrorOnNotAuthorized(w http.ResponseWriter, r *http.Request, enti
 		return errors.New("not authorized")
 	}
 
-	result, err := a.repo.IsOwner(entityID, userId)
+	if entityID == nil {
+		return nil
+	}
+
+	result, err := auth.repo.IsOwner(*entityID, userId)
 	if err != nil {
 		return err
 	}

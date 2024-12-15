@@ -2,6 +2,7 @@ package login
 
 import (
 	"encoding/json"
+	"ipr/infra/router/middleware"
 	"ipr/infra/session"
 	"ipr/infra/template"
 	"net/http"
@@ -18,14 +19,14 @@ func RenderController() http.HandlerFunc {
 
 func HandlerController(handler *UserLoginHandler, sm *session.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req := &createCommand{
+		req := &command{
 			Password: r.FormValue("password"),
 			Email:    r.FormValue("email"),
 		}
 
 		id, err := handler.execute(req)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			r = middleware.AddErrorToContext(r, err)
 			return
 		}
 

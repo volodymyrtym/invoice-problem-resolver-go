@@ -7,6 +7,7 @@ import (
 	"ipr/infra/router"
 	"ipr/infra/session"
 	"ipr/infra/template"
+	"ipr/modules/daily_activity"
 	"log"
 	"net/http"
 	"os"
@@ -37,9 +38,12 @@ func main() {
 	ctx := context.Background()
 
 	// > module user
-	userDeps := user.NewDependencies(db, ctx)
-	user.RegisterRoutes(userDeps, sessionManager)
+	user.RegisterRoutes(user.NewDependencies(db, ctx), sessionManager)
 	// < module user
+
+	// > module daily_activity
+	daily_activity.RegisterRoutes(daily_activity.NewDependencies(db, ctx))
+	// < module daily_activity
 
 	// Start the HTTP server
 	log.Println("Server running on :8080")

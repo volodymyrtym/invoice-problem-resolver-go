@@ -10,11 +10,16 @@ type UserLoginHandler struct {
 	passwordValidator *password.Validator
 }
 
+type command struct {
+	Email    string `json:"Email"`
+	Password string `json:"HashedPassword"`
+}
+
 func NewUserLoginHandler(repo *UserLoginRepository, passwordValidator *password.Validator) *UserLoginHandler {
 	return &UserLoginHandler{repo: repo, passwordValidator: passwordValidator}
 }
 
-func (handler *UserLoginHandler) execute(command *createCommand) (string, error) {
+func (handler *UserLoginHandler) execute(command *command) (string, error) {
 	user, _ := handler.repo.find(command.Email)
 	if user == nil {
 		return "", shared.NewInvalidInputError("unknown email")
