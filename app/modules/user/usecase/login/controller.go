@@ -33,7 +33,7 @@ func HandlerController(handler *UserLoginHandler, sm *session.Manager) http.Hand
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(struct {
-			ID string
-		}{ID: id})
+			Id string
+		}{Id: id})
 	}
 }

@@ -24,7 +24,7 @@ func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(struct {
-			ID string `json:"id"`
-		}{ID: id})
+			Id string `json:"id"`
+		}{Id: id})
 	}
 }
