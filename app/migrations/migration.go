@@ -31,7 +31,7 @@ func main() {
 	defer db.Close()
 
 	// Налаштування папки міграцій
-	migrationsDir := "migrations"
+	migrationsDir := "./migrations/sql"
 
 	// Отримання поточного стану міграцій
 	currentVersion, err := goose.GetDBVersion(db)

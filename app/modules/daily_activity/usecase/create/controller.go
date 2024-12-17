@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"ipr/infra/router/middleware"
 	"ipr/modules/daily_activity/authorization"
+	"ipr/shared"
 	"net/http"
 )
 
@@ -23,7 +24,7 @@ func Controller(h *Handler) http.HandlerFunc {
 		command.UserID = middleware.GetUserIdFromRequest(r)
 		createdID, err := h.execute(&command)
 		if err != nil {
-			r = middleware.AddErrorToContext(r, err)
+			shared.HandleHttpError(w, r, err, nil)
 			return
 		}
 

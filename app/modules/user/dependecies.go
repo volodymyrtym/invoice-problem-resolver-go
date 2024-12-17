@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"database/sql"
+	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/modules/user/usecase/create"
 	"ipr/modules/user/usecase/login"
@@ -16,8 +17,8 @@ type Dependencies struct {
 func NewDependencies(db *sql.DB, ctx context.Context) *Dependencies {
 	createPasswordValidator := password.NewPasswordValidator()
 
-	createRepo := create.NewUserCreateRepository(db, ctx)
-	createHandler := create.NewUserCreateHandler(createRepo, createPasswordValidator)
+	userRepository := repository.NewUserRepository(db, ctx)
+	createHandler := create.NewUserCreateHandler(userRepository, createPasswordValidator)
 
 	loginRepo := login.NewUserLoginRepository(db, ctx)
 	loginHandler := login.NewUserLoginHandler(loginRepo, createPasswordValidator)

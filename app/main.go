@@ -30,7 +30,7 @@ func main() {
 
 	isDev := os.Getenv("APP_ENV") == "dev"
 
-	sessionManager := session.NewSessionManager("./sessions", os.Getenv("SESSION_SECRET_KEY"), os.Getenv("SESSION_KEY"))
+	sessionManager := session.NewSessionManager("./var/sessions", os.Getenv("SESSION_SECRET_KEY"), os.Getenv("SESSION_KEY"))
 
 	router.InitializeRouter()
 	template.InitializeRenderer("./templates", isDev)

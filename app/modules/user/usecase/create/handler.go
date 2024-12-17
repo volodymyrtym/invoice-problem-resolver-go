@@ -2,22 +2,23 @@ package create
 
 import (
 	"errors"
+	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/shared"
 	"net/mail"
 )
 
 type UserCreateHandler struct {
-	repo              *UserCreateRepository
+	repo              *repository.UserRepository
 	passwordValidator *password.Validator
 }
 
 type command struct {
-	Email    string
-	Password string
+	Email    string `json:"Email"`
+	Password string `json:"Password"`
 }
 
-func NewUserCreateHandler(repo *UserCreateRepository, passwordValidator *password.Validator) *UserCreateHandler {
+func NewUserCreateHandler(repo *repository.UserRepository, passwordValidator *password.Validator) *UserCreateHandler {
 	return &UserCreateHandler{repo: repo, passwordValidator: passwordValidator}
 }
 
@@ -32,7 +33,7 @@ func (handler *UserCreateHandler) execute(req *command) (string, error) {
 	}
 
 	id, _ := shared.GenerateGuid()
-	err = handler.repo.create(id, hashedPassword, req.Email)
+	err = handler.repo.Create(id, hashedPassword, req.Email)
 	if err != nil {
 		return "", err
 	}

@@ -2,9 +2,9 @@ package login
 
 import (
 	"encoding/json"
-	"ipr/infra/router/middleware"
 	"ipr/infra/session"
 	"ipr/infra/template"
+	"ipr/shared"
 	"net/http"
 )
 
@@ -26,7 +26,7 @@ func HandlerController(handler *UserLoginHandler, sm *session.SessionManager) ht
 
 		id, err := handler.execute(req)
 		if err != nil {
-			r = middleware.AddErrorToContext(r, err)
+			shared.HandleHttpError(w, r, err, nil)
 			return
 		}
 

@@ -2,19 +2,27 @@ package middleware
 
 import (
 	"context"
-	http2 "ipr/infra/session"
+	"ipr/infra/session"
 	"net/http"
+	"regexp"
 )
 
-func UserSessionIdMiddleware(sm *http2.SessionManager) func(http.Handler) http.Handler {
+func UserSessionIdMiddleware(sm *session.SessionManager) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			includeRegex := regexp.MustCompile(`^/daily-activities|^/day-offs`)
+			if !includeRegex.MatchString(r.URL.Path) {
+				next.ServeHTTP(w, r)
+				return
+			}
+
 			userId, err := sm.GetUser(r)
 			if err != nil || userId == "" {
 				http.Error(w, "Unauthorized", http.StatusUnauthorized)
 				return
 			}
 
+			// Додаємо userId до контексту
 			ctx := context.WithValue(r.Context(), "user", userId)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})

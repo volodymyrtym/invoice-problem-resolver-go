@@ -51,7 +51,6 @@ func (handler *Handler) execute(command *Command) (string, error) {
 		CreatedAt:   time.Now(),
 	}
 
-	// Збереження у репозиторій
 	if err := handler.repo.Save(&activity); err != nil {
 		return "", errors.New("failed to save activity")
 	}
