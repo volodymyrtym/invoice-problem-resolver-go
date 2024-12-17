@@ -30,7 +30,7 @@ func AddRoute(path string, method string, handler http.HandlerFunc) {
 	router.routes = append(router.routes, Route{Path: path, Method: method, Handler: handler})
 }
 
-func GetChiRouter(sm *session.SessionManager) http.Handler {
+func GetChiRouter(sm *session.Manager) http.Handler {
 	chiRouter := chi.NewRouter()
 
 	// Add middleware

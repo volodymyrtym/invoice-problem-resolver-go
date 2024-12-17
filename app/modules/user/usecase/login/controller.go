@@ -10,21 +10,19 @@ import (
 
 func RenderController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		data := map[string]interface{}{
-			"message": "Welcome to Invoice Problem Resolver",
-		}
-		template.RenderTemplate(w, "pages/login/login.html", data)
+		template.RenderTemplate(w, "pages/login/login.html", nil)
 	}
 }
 
-func HandlerController(handler *UserLoginHandler, sm *session.SessionManager) http.HandlerFunc {
+func HandlerController(handler *UserLoginHandler, sm *session.Manager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req := &command{
-			Password: r.FormValue("password"),
-			Email:    r.FormValue("email"),
+		var command command
+		if err := json.NewDecoder(r.Body).Decode(&command); err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
 		}
 
-		id, err := handler.execute(req)
+		id, err := handler.execute(&command)
 		if err != nil {
 			shared.HandleHttpError(w, r, err, nil)
 			return

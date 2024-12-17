@@ -1,26 +1,27 @@
 package login
 
 import (
+	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/shared"
 )
 
 type UserLoginHandler struct {
-	repo              *UserLoginRepository
+	repo              *repository.UserRepository
 	passwordValidator *password.Validator
 }
 
 type command struct {
 	Email    string `json:"Email"`
-	Password string `json:"HashedPassword"`
+	Password string `json:"Password"`
 }
 
-func NewUserLoginHandler(repo *UserLoginRepository, passwordValidator *password.Validator) *UserLoginHandler {
+func NewUserLoginHandler(repo *repository.UserRepository, passwordValidator *password.Validator) *UserLoginHandler {
 	return &UserLoginHandler{repo: repo, passwordValidator: passwordValidator}
 }
 
 func (handler *UserLoginHandler) execute(command *command) (string, error) {
-	user, _ := handler.repo.find(command.Email)
+	user, _ := handler.repo.Find(command.Email)
 	if user == nil {
 		return "", shared.NewInvalidInputError("unknown email")
 	}
@@ -28,6 +29,8 @@ func (handler *UserLoginHandler) execute(command *command) (string, error) {
 	if password.VerifyPassword(command.Password, user.HashedPassword) == false {
 		return "", shared.NewInvalidInputError("wrong password")
 	}
+
+	handler.repo.UpdateLastLogin(user.Id)
 
 	return user.Id, nil
 }

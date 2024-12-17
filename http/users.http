@@ -3,6 +3,15 @@ POST http://localhost:8080/users/create
 Content-Type: application/json
 
 {
-  "Email": "example@example.com",
+  "Email": "example1@example.com",
+  "Password": "securepassword123"
+}
+
+### Login User
+PUT http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "Email": "example1@example.com",
   "Password": "securepassword123"
 }

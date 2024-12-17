@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func RegisterRoutes(deps *Dependencies, sm *session.SessionManager) {
+func RegisterRoutes(deps *Dependencies, sm *session.Manager) {
 	router.AddRoute("/", http.MethodGet, login.RenderController())
 	router.AddRoute("/users/create", http.MethodPost, create.HandleController(deps.CreateHandler))
 	router.AddRoute("/users/login", http.MethodGet, login.RenderController())

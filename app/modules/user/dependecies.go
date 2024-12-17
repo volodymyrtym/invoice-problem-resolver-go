@@ -19,9 +19,7 @@ func NewDependencies(db *sql.DB, ctx context.Context) *Dependencies {
 
 	userRepository := repository.NewUserRepository(db, ctx)
 	createHandler := create.NewUserCreateHandler(userRepository, createPasswordValidator)
-
-	loginRepo := login.NewUserLoginRepository(db, ctx)
-	loginHandler := login.NewUserLoginHandler(loginRepo, createPasswordValidator)
+	loginHandler := login.NewUserLoginHandler(userRepository, createPasswordValidator)
 
 	return &Dependencies{
 		CreateHandler: createHandler,

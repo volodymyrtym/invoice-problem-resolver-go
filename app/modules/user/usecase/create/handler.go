@@ -5,6 +5,7 @@ import (
 	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/shared"
+	"log"
 	"net/mail"
 )
 
@@ -22,18 +23,24 @@ func NewUserCreateHandler(repo *repository.UserRepository, passwordValidator *pa
 	return &UserCreateHandler{repo: repo, passwordValidator: passwordValidator}
 }
 
-func (handler *UserCreateHandler) execute(req *command) (string, error) {
-	if err := handler.validate(req); err != nil {
+func (handler *UserCreateHandler) execute(cmd *command) (string, error) {
+	if err := handler.validate(cmd); err != nil {
 		return "", shared.NewInvalidInputError(err.Error())
 	}
 
-	hashedPassword, err := password.HashPassword(req.Password)
+	isExists, _ := handler.repo.IsExists(cmd.Email)
+	if isExists {
+		return "", shared.NewInvalidInputError("user already exists")
+	}
+
+	hashedPassword, err := password.HashPassword(cmd.Password)
+	log.Println("hashedPassword: ", hashedPassword)
 	if err != nil {
 		return "", err
 	}
 
 	id, _ := shared.GenerateGuid()
-	err = handler.repo.Create(id, hashedPassword, req.Email)
+	err = handler.repo.Create(id, cmd.Email, hashedPassword)
 	if err != nil {
 		return "", err
 	}

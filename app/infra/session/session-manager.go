@@ -8,18 +8,18 @@ import (
 
 const userIdKey = "userId"
 
-type SessionManager struct {
+type Manager struct {
 	store      *sessions.FilesystemStore
 	sessionKey string
 }
 
-func NewSessionManager(path, secretKey, sessionKey string) *SessionManager {
+func NewSessionManager(path, secretKey, sessionKey string) *Manager {
 	store := sessions.NewFilesystemStore(path, []byte(secretKey))
 	store.MaxLength(0)
-	return &SessionManager{store: store, sessionKey: sessionKey}
+	return &Manager{store: store, sessionKey: sessionKey}
 }
 
-func (sm *SessionManager) SetUser(w http.ResponseWriter, r *http.Request, value string) error {
+func (sm *Manager) SetUser(w http.ResponseWriter, r *http.Request, value string) error {
 	err := sm.setValue(w, r, userIdKey, value)
 	if err != nil {
 		return err
@@ -28,7 +28,7 @@ func (sm *SessionManager) SetUser(w http.ResponseWriter, r *http.Request, value 
 	return nil
 }
 
-func (sm *SessionManager) ClearUser(w http.ResponseWriter, r *http.Request) error {
+func (sm *Manager) ClearUser(w http.ResponseWriter, r *http.Request) error {
 	err := sm.deleteValue(w, r, userIdKey)
 	if err != nil {
 		return err
@@ -37,7 +37,7 @@ func (sm *SessionManager) ClearUser(w http.ResponseWriter, r *http.Request) erro
 	return nil
 }
 
-func (sm *SessionManager) GetUser(r *http.Request) (string, error) {
+func (sm *Manager) GetUser(r *http.Request) (string, error) {
 	value, err := sm.getValue(r, userIdKey)
 	if err != nil {
 		return "", err
@@ -51,7 +51,7 @@ func (sm *SessionManager) GetUser(r *http.Request) (string, error) {
 	return userId, nil
 }
 
-func (sm *SessionManager) setValue(w http.ResponseWriter, r *http.Request, key string, value interface{}) error {
+func (sm *Manager) setValue(w http.ResponseWriter, r *http.Request, key string, value interface{}) error {
 	session, err := sm.store.Get(r, sm.sessionKey)
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func (sm *SessionManager) setValue(w http.ResponseWriter, r *http.Request, key s
 	return session.Save(r, w)
 }
 
-func (sm *SessionManager) getValue(r *http.Request, key string) (interface{}, error) {
+func (sm *Manager) getValue(r *http.Request, key string) (interface{}, error) {
 	session, err := sm.store.Get(r, sm.sessionKey)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (sm *SessionManager) getValue(r *http.Request, key string) (interface{}, er
 	return session.Values[key], nil
 }
 
-func (sm *SessionManager) deleteValue(w http.ResponseWriter, r *http.Request, key string) error {
+func (sm *Manager) deleteValue(w http.ResponseWriter, r *http.Request, key string) error {
 	session, err := sm.store.Get(r, sm.sessionKey)
 	if err != nil {
 		return err
