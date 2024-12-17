@@ -6,6 +6,10 @@ import (
 	"net/http"
 )
 
+type UserCreateResponse struct {
+	Id string `json:"id"`
+}
+
 // HandleController
 // @Summary Create a new user
 // @Description Accepts JSON input and creates a new user, returning the user ID.
@@ -34,8 +38,6 @@ func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(struct {
-			Id string `json:"id"`
-		}{Id: id})
+		json.NewEncoder(w).Encode(UserCreateResponse{Id: id})
 	}
 }

@@ -1,15 +1,13 @@
-{% extends "layouts/not-logged.html" %}
-
-{% block title %}
+{{extends "../../layouts/not_logged.html"}}
+{{block title()}}
 Invoice Problem Resolver - time spent reports, time tracking
-{% endblock %}
+{{end}}
 
-{% block styles %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset_hash('/build/css/login.css') }}">
-{% endblock %}
+{{block styles()}}
+<link rel="stylesheet" href="/build/css/login.css">
+{{end}}
 
-{% block content %}
+{{block page_content()}}
 <div class="combined-container">
     <div class="info-container">
         <h2>Why Use Invoice Problem Resolver?</h2>
@@ -21,11 +19,11 @@ Invoice Problem Resolver - time spent reports, time tracking
         </ul>
     </div>
     <div class="login-container">
-        {% if message %}
+        {{if .message}}
             <div class="error-message">
-                {{ message }}
+                {{.message}}
             </div>
-        {% endif %}
+        {{end}}
 
         <h2 class="login-header">Login</h2>
         <form data-controller="login" data-action="submit->login#handleSubmit">
@@ -67,4 +65,4 @@ Invoice Problem Resolver - time spent reports, time tracking
         </div>
     </div>
 </div>
-{% endblock %}
+{{end}}

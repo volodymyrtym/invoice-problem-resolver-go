@@ -10,7 +10,11 @@ import (
 
 func RenderController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		template.RenderTemplate(w, "pages/login/login.html", nil)
+		data := map[string]interface{}{
+			"message": "test",
+		}
+
+		template.RenderTemplate(w, "pages/login/login.html", data)
 	}
 }
 
