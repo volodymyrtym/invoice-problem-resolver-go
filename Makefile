@@ -31,3 +31,7 @@ restart: stop build run
 clean:
 	echo "Cleaning Docker environment..."
 	docker-compose down -v
+
+#swager docs generate
+swager:
+	docker-compose exec app swag init

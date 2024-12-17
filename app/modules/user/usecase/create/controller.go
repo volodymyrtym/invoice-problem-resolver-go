@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+// HandleController
+// @Summary Create a new user
+// @Description Accepts JSON input and creates a new user, returning the user ID.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param command body create.command true "User creation payload"
+// @Success 201 {object} map[string]string "User ID"
+// @Failure 400 {string} string "Invalid JSON"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /users [post]
 func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var command command

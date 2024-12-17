@@ -1,0 +1,44 @@
+definitions:
+  create.command:
+    properties:
+      Email:
+        type: string
+      Password:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Accepts JSON input and creates a new user, returning the user ID.
+      parameters:
+      - description: User creation payload
+        in: body
+        name: command
+        required: true
+        schema:
+          $ref: '#/definitions/create.command'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User ID
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid JSON
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - User
+swagger: "2.0"

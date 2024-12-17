@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"ipr/infra/router"
 	"ipr/infra/session"
 	"ipr/infra/template"
@@ -13,6 +14,7 @@ import (
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	_ "ipr/docs"
 	"ipr/modules/user"
 )
 
@@ -20,7 +22,6 @@ func main() {
 	if err := godotenv.Load(".env.local"); err != nil {
 		log.Fatalf("Failed to load .env.local: %v", err)
 	}
-
 	db, err := initDB()
 	if err != nil {
 		log.Fatalf("Failed to init db: %v", err)
@@ -43,7 +44,10 @@ func main() {
 	// > module daily_activity
 	daily_activity.RegisterRoutes(daily_activity.NewDependencies(db, ctx))
 	// < module daily_activity
-
+	//swagger route
+	if isDev {
+		router.AddRoute("/swagger/*", http.MethodGet, httpSwagger.WrapHandler)
+	}
 	// Start the HTTP server
 	log.Println("Server running on :8080")
 	log.Fatal(http.ListenAndServe(":8080", router.GetChiRouter(sessionManager)))
