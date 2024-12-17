@@ -1,4 +1,16 @@
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/:/etc/nginx/conf.d/
+      - ./docker/logs/nginx/:/var/log/nginx/
+      - ./app/static/:/var/www/static/:cached
+    tty: true
+    networks:
+      - app_network
   app:
     build:
       context: ./docker/go
