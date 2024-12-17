@@ -9,6 +9,8 @@ services:
       - ./docker/logs/nginx/:/var/log/nginx/
       - ./app/static/:/var/www/static/:cached
     tty: true
+    depends_on:
+      - app
     networks:
       - app_network
   app:
@@ -41,6 +43,18 @@ services:
     restart: always
     networks:
       - app_network
+
+  frontend_build:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    environment:
+      - NODE_ENV=prod
+    volumes:
+      - ./app/:/usr/src/app
+      # Bind mounted node_modules to avoid overwriting container's node_modules
+      - /usr/src/app/node_modules
+    command: [ "node", "esbuild.config.js" ]
 
 networks:
   app_network:

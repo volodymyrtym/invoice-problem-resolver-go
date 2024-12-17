@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/siimple-icons/siimple-icons.css" />
+    {% block styles %}{% endblock %}
+    <title>{% block title %}Invoice Problem Resolver{% endblock %}</title>
+</head>
+<body>
+<nav class="pure-menu pure-menu-horizontal">
+    <div class="pure-menu-heading">
+        <img src="/img/logo.png" alt="Logo" style="height: 55px; vertical-align: middle; margin-right: 10px;">
+        <span>Invoice Problem Resolver</span>
+    </div>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item">
+            <a href="#reports" class="pure-menu-link">Activities</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="#reports" class="pure-menu-link">Invoices</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="#reports" class="pure-menu-link">Reports</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="#profile" class="pure-menu-link">Profile</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="/logout" class="pure-menu-link">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>
+    <p>&copy; 2024 Invoice Problem Resolver. All rights reserved.</p>
+</footer>
+{% block javascripts %}
+    <script type="module" src="{{ asset_hash('/build/js/stimulus-app.js') }}" defer></script>
+{% endblock %}
+</body>
+</html>
+
+

@@ -3,3 +3,4 @@ main
 var
 static/js
 static/css
+node-modules
