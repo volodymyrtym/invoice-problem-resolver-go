@@ -13,5 +13,7 @@ RUN npm install
 # Copy the rest of the application files to the container
 COPY ./app .
 
+ENV NODE_ENV=prod
+
 # Build the assets for production
 RUN node esbuild.config.js

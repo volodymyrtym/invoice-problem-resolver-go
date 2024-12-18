@@ -28,14 +28,22 @@ const buildOptions = {
 
 // Run the build process
 async function build() {
+    console.log(`Building for ${isProd ? "production" : "development"} environment...`);
+
     try {
-        // Ensure output directory exists
-        console.log(`Building for ${isProd ? "production" : "development"} environment...`);
-        await esbuild.build(buildOptions);
-        console.log("Build successful!");
+        if (!isProd) {
+            // Development mode with watch
+            const ctx = await esbuild.context(buildOptions);
+            console.log("Watching for file changes...");
+            await ctx.watch();
+        } else {
+            // Production build
+            await esbuild.build(buildOptions);
+            console.log("Build successful!");
+        }
     } catch (error) {
         console.error("Build failed:", error);
-        process.exit(1); // Exit with error code
+        process.exit(1); // Exit with error code on failure
     }
 }
 
