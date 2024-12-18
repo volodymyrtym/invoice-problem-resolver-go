@@ -15,6 +15,3 @@ COPY ./app .
 
 # Build the assets for production
 RUN node esbuild.config.js
-
-# By default, keep container alive unless overridden in docker-compose
-CMD ["tail", "-f", "/dev/null"]

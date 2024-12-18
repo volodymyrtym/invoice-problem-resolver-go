@@ -15,17 +15,15 @@ services:
       - app_network
   app:
     build:
-      context: ./docker/go
+      context: .
+      dockerfile: docker/go/Dockerfile
+      target: ${SERVICE_MODE} # Це дозволяє вибрати етап збірки!
     container_name: go-ipr-app
-    volumes:
-      - ./app:/app
     ports:
       - "8080:8080"
-    environment:
-      - PORT=8080
-    depends_on:
-      - db
-    tty: true
+    volumes:
+      - ./app/:/app:cached
+    command: ${RUN_CMD}
     networks:
       - app_network
 
@@ -39,7 +37,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker/postgres_data/:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     networks:
       - app_network
@@ -48,14 +46,17 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
-    environment:
-      - NODE_ENV=prod
     volumes:
-      - ./app/:/usr/src/app
+      - ./app/:/usr/src/app:cached
       # Bind mounted node_modules to avoid overwriting container's node_modules
       - /usr/src/app/node_modules
     command: [ "node", "esbuild.config.js" ]
+    tty: true
 
 networks:
   app_network:
     driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
