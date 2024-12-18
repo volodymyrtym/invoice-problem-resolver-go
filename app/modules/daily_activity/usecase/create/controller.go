@@ -8,6 +8,18 @@ import (
 	"net/http"
 )
 
+// Controller
+// @Summary Create a new daily-activity
+// @Description This endpoint allows creating a new resource with a provided JSON payload.
+// @Tags resources
+// @Accept json
+// @Produce json
+// @Param request body Command true "Request payload"
+// @Success 201 {object} map[string]string "Created resource ID"
+// @Failure 400 {object} map[string]string "Invalid JSON"
+// @Failure 401 {object} map[string]string "Unauthorized"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /daily-activities [post]
 func Controller(h *Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := authorization.ErrorOnNotAuthorized(w, r, nil)

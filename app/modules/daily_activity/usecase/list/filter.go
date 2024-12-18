@@ -13,24 +13,25 @@ func filterFabric(q Query) *repository.GetListFilter {
 
 	now := time.Now()
 
-	switch *q.Range {
-	case "currentMonth":
-		startOfMonth := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
-		endOfMonth := startOfMonth.AddDate(0, 1, -1)
-		filter.DateRange = &repository.DateRange{
-			StartDate: startOfMonth,
-			EndDate:   endOfMonth,
-		}
+	if q.Range != nil {
+		switch *q.Range {
+		case "currentMonth":
+			startOfMonth := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+			endOfMonth := startOfMonth.AddDate(0, 1, -1)
+			filter.DateRange = &repository.DateRange{
+				StartDate: startOfMonth,
+				EndDate:   endOfMonth,
+			}
 
-	case "prevMonth":
-		startOfPrevMonth := time.Date(now.Year(), now.Month()-1, 1, 0, 0, 0, 0, now.Location())
-		endOfPrevMonth := startOfPrevMonth.AddDate(0, 1, -1)
-		filter.DateRange = &repository.DateRange{
-			StartDate: startOfPrevMonth,
-			EndDate:   endOfPrevMonth,
+		case "prevMonth":
+			startOfPrevMonth := time.Date(now.Year(), now.Month()-1, 1, 0, 0, 0, 0, now.Location())
+			endOfPrevMonth := startOfPrevMonth.AddDate(0, 1, -1)
+			filter.DateRange = &repository.DateRange{
+				StartDate: startOfPrevMonth,
+				EndDate:   endOfPrevMonth,
+			}
 		}
-
-	default:
+	} else {
 		filter.Limit = &limitDays
 		filter.Page = q.Page
 	}

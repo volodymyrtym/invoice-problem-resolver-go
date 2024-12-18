@@ -5,7 +5,6 @@ import (
 	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/shared"
-	"log"
 	"net/mail"
 )
 
@@ -34,7 +33,6 @@ func (handler *UserCreateHandler) execute(cmd *command) (string, error) {
 	}
 
 	hashedPassword, err := password.HashPassword(cmd.Password)
-	log.Println("hashedPassword: ", hashedPassword)
 	if err != nil {
 		return "", err
 	}

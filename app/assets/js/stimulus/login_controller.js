@@ -19,19 +19,19 @@ export default class extends Controller {
         showLoadingMessage(this.statusMessageTarget);
 
         try {
-            const response = await fetch("/login_check", {
-                method: "POST",
+            const response = await fetch("/users/login", {
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
                 const data = await response.json();
-                showErrorMessage(this.statusMessageTarget, data.detail || "An error occurred");
+                showErrorMessage(this.statusMessageTarget, data.error || "An error occurred");
             } else {
                 showSuccessMessage(this.statusMessageTarget, "Login successful!");
                 setTimeout(() => {
-                    window.location.href = "/daily-activities";
+                    window.location.href = "/daily-activities/index";
                 }, 1000);
             }
         } catch (error) {
