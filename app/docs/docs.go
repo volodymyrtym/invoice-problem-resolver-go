@@ -15,6 +15,99 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/daily-activities": {
+            "post": {
+                "description": "This endpoint allows creating a new resource with a provided JSON payload.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "daily-activity"
+                ],
+                "summary": "Create a new daily-activity",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/create.Command"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created resource ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid JSON",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/daily-activity": {
+            "delete": {
+                "description": "Deletes a daily activity by its ID.",
+                "tags": [
+                    "daily-activity"
+                ],
+                "summary": "Delete Daily Activity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the daily activity",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "Accepts JSON input and creates a new user, returning the user ID.",
@@ -63,10 +156,87 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/login": {
+            "post": {
+                "description": "Handles user login by processing login commands, setting session, and returning the user ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Login Handler",
+                "parameters": [
+                    {
+                        "description": "User login command",
+                        "name": "command",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.command"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "create.Command": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "dateTimeFrom": {
+                    "type": "string"
+                },
+                "dateTimeTo": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
         "create.command": {
+            "type": "object",
+            "properties": {
+                "Email": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                }
+            }
+        },
+        "login.command": {
             "type": "object",
             "properties": {
                 "Email": {

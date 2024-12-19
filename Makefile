@@ -32,6 +32,10 @@ clean:
 	echo "Cleaning Docker environment..."
 	docker-compose down -v
 
-#swager docs generate
-swager:
+.install-swag:
+	@echo "Installing swag CLI..."
+	docker-compose exec app go install github.com/swaggo/swag/cmd/swag@latest
+
+generate-swagger-docs: .install-swag
+	@echo "Generating Swagger documentation..."
 	docker-compose exec app swag init
