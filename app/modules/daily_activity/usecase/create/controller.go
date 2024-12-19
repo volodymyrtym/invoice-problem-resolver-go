@@ -11,7 +11,7 @@ import (
 // Controller
 // @Summary Create a new daily-activity
 // @Description This endpoint allows creating a new resource with a provided JSON payload.
-// @Tags resources
+// @Tags daily-activity
 // @Accept json
 // @Produce json
 // @Param request body Command true "Request payload"

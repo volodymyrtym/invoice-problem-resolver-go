@@ -1,7 +1,7 @@
 package template
 
 import (
-	"log"
+	"ipr/shared"
 	"net/http"
 
 	"github.com/CloudyKit/jet/v6"
@@ -24,7 +24,7 @@ func InitializeRenderer(templateDir string, devMode bool) {
 	}
 }
 
-func RenderTemplate(w http.ResponseWriter, templateName string, data map[string]interface{}) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, templateName string, data map[string]interface{}) {
 	if data == nil {
 		data = map[string]interface{}{}
 	}
@@ -34,15 +34,12 @@ func RenderTemplate(w http.ResponseWriter, templateName string, data map[string]
 
 	tmpl, err := views.GetTemplate(templateName)
 	if err != nil {
-		http.Error(w, "Template not found: "+templateName, http.StatusInternalServerError)
-		log.Printf("Error loading template: %v", err)
+		shared.HandleHttpError(w, r, err, nil)
 
 		return
 	}
 
 	if err := tmpl.Execute(w, nil, data); err != nil {
-		http.Error(w, "Failed to render template", http.StatusInternalServerError)
-
-		log.Printf("Error rendering template: %v", err)
+		shared.HandleHttpError(w, r, err, nil)
 	}
 }

@@ -39,8 +39,8 @@
 <footer>
     <p>&copy; 2024 Invoice Problem Resolver. All rights reserved.</p>
 </footer>
-<script type="module" src="{{ asset_hash('/build/js/stimulus-app.js') }}" defer></script>
-{{ block javascripts }}{{end}
+<script type='module' src='{{"/static/js/stimulus-app.js" | asset_hash }}' defer></script>
+{{block javascripts()}}{{end}}
 </body>
 </html>
 

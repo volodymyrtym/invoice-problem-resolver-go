@@ -32,6 +32,8 @@ func HandleHttpError(w http.ResponseWriter, r *http.Request, err error, httpStat
 	statusCode := http.StatusInternalServerError
 	msg := "Internal server error"
 
+	fmt.Println(w, "Error: %s\n", err.Error())
+
 	if httpStatusCode != nil {
 		statusCode = *httpStatusCode
 		msg = err.Error()
@@ -58,7 +60,6 @@ func HandleHttpError(w http.ResponseWriter, r *http.Request, err error, httpStat
 	} else {
 		w.WriteHeader(statusCode)
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		fmt.Fprintf(w, "Error: %s\n", msg)
 	}
 }
 

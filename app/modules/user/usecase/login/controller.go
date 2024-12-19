@@ -14,10 +14,21 @@ func RenderController() http.HandlerFunc {
 			"message": "test",
 		}
 
-		template.RenderTemplate(w, "pages/login/login.html", data)
+		template.RenderTemplate(w, r, "pages/login/login.html", data)
 	}
 }
 
+// HandlerController
+// @Summary User Login Handler
+// @Description Handles user login by processing login commands, setting session, and returning the user ID.
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param command body command true "User login command"
+// @Success 200 {object} map[string]string "User ID"
+// @Failure 400 {string} string "Invalid JSON"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /users/login [post]
 func HandlerController(handler *UserLoginHandler, sm *session.Manager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var command command

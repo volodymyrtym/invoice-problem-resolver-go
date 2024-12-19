@@ -45,6 +45,6 @@ func Controller(handler *Handler) http.HandlerFunc {
 			return
 		}
 
-		template.RenderTemplate(w, "pages/daily-activities/list.html", data.ToMap())
+		template.RenderTemplate(w, r, "pages/daily-activities/list.html", data.ToMap())
 	}
 }
