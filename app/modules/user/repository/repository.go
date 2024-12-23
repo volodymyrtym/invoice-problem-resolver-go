@@ -76,14 +76,10 @@ func (r *UserRepository) IsExists(email string) (bool, error) {
 	return true, nil
 }
 
-func (r *UserRepository) UpdateLastLogin(userId string) error {
+func (r *UserRepository) UpdateLastLogin(userId string, at time.Time) error {
 	query := "UPDATE user_users SET last_login_at = $1 WHERE id = $2"
 
-	// Отримання поточного часу
-	currentTime := time.Now()
-
-	// Виконання запиту
-	_, err := r.db.ExecContext(r.ctx, query, currentTime, userId)
+	_, err := r.db.ExecContext(r.ctx, query, at, userId)
 	if err != nil {
 		return err
 	}

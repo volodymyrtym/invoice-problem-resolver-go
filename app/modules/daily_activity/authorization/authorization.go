@@ -12,10 +12,8 @@ type Auth struct {
 	repo *repository.DailyActivityRepository
 }
 
-func NewAuth(repo *repository.DailyActivityRepository) *Auth {
-	return &Auth{
-		repo: repo,
-	}
+func NewAuth(repo *repository.DailyActivityRepository) {
+	auth = &Auth{repo: repo}
 }
 
 func ErrorOnNotAuthorized(w http.ResponseWriter, r *http.Request, entityID *string) error {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 <body>
 <nav class="pure-menu pure-menu-horizontal">
     <div class="pure-menu-heading">
-        <img src="/img/logo.png" alt="Logo" style="height: 55px; vertical-align: middle; margin-right: 10px;">
+        <img src="/static/img/logo.png" alt="Logo" style="height: 55px; vertical-align: middle; margin-right: 10px;">
         <span>Invoice Problem Resolver</span>
     </div>
     <ul class="pure-menu-list">
@@ -20,16 +20,13 @@
             <a href="#reports" class="pure-menu-link">Activities</a>
         </li>
         <li class="pure-menu-item">
+            <a href="#reports" class="pure-menu-link">Day off</a>
+        </li>
+        <li class="pure-menu-item">
             <a href="#reports" class="pure-menu-link">Invoices</a>
         </li>
         <li class="pure-menu-item">
-            <a href="#reports" class="pure-menu-link">Reports</a>
-        </li>
-        <li class="pure-menu-item">
-            <a href="#profile" class="pure-menu-link">Profile</a>
-        </li>
-        <li class="pure-menu-item">
-            <a href="/logout" class="pure-menu-link">Logout</a>
+            <a href="/users/logout" class="pure-menu-link">Logout</a>
         </li>
     </ul>
 </nav>
@@ -39,7 +36,7 @@
 <footer>
     <p>&copy; 2024 Invoice Problem Resolver. All rights reserved.</p>
 </footer>
-<script type='module' src='{{"/static/js/stimulus-app.js" | asset_hash }}' defer></script>
+<script type="module" src="/static/js/stimulus-app.js" defer></script>
 {{block javascripts()}}{{end}}
 </body>
 </html>

@@ -23,7 +23,7 @@ export default class extends Controller {
      */
     async handleSubmit(event) {
         showLoadingMessage(this.statusMessageTarget);
-        event.preventDefault(); // Prevent the default form submission.
+        event.preventDefault();
 
         const url = "/api/daily-activities";
         const form = event.target;
@@ -39,12 +39,16 @@ export default class extends Controller {
                 body: JSON.stringify(jsonData), // Send data as JSON
             });
 
-            this.dispatch("activitySaved", {detail: {response: await response.json()}});
+            if (response.ok) {
+                window.location.reload();
+            }
 
-            showSuccessMessage(this.statusMessageTarget, "Activity added!");
-            this.resetForm(form);
+            showErrorMessage(this.statusMessageTarget, response.message || "An error occurred");
+            //this.dispatch("activitySaved", {detail: {response: await response.json()}})
+            //showSuccessMessage(this.statusMessageTarget, "Activity added!");
+            //this.resetForm(form);
         } catch (error) {
-            showErrorMessage(this.statusMessageTarget, data.detail || "An error occurred");
+            showErrorMessage(this.statusMessageTarget, error.message || "Critical error occurred");
         }
     }
 }

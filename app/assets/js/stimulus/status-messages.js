@@ -45,3 +45,23 @@ function resetMessageClasses(targetElement) {
 export function hideMessage(targetElement) {
     targetElement.style.display = "none";
 }
+
+export function loadingButtonStart(button) {
+    if (button instanceof HTMLButtonElement) {
+        if (!button.dataset.originalText) {
+            button.dataset.originalText = button.textContent;
+        }
+        button.disabled = true;
+        button.textContent = "Loading..";
+    }
+}
+
+export function loadingButtonDone(button) {
+    if (button instanceof HTMLButtonElement) {
+        button.disabled = false;
+        if (button.dataset.originalText) {
+            button.textContent = button.dataset.originalText;
+            delete button.dataset.originalText;
+        }
+    }
+}

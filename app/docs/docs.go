@@ -41,7 +41,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created resource ID",
+                        "description": "Created resource Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -81,7 +81,7 @@ const docTemplate = `{
         },
         "/daily-activity": {
             "delete": {
-                "description": "Deletes a daily activity by its ID.",
+                "description": "Deletes a daily activity by its Id.",
                 "tags": [
                     "daily-activity"
                 ],
@@ -89,7 +89,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The ID of the daily activity",
+                        "description": "The Id of the daily activity",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -110,7 +110,7 @@ const docTemplate = `{
         },
         "/users": {
             "post": {
-                "description": "Accepts JSON input and creates a new user, returning the user ID.",
+                "description": "Accepts JSON input and creates a new user, returning the user Id.",
                 "consumes": [
                     "application/json"
                 ],
@@ -134,7 +134,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "User ID",
+                        "description": "User Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -159,7 +159,7 @@ const docTemplate = `{
         },
         "/users/login": {
             "post": {
-                "description": "Handles user login by processing login commands, setting session, and returning the user ID.",
+                "description": "Handles user login by processing login commands, setting session, and returning the user Id.",
                 "consumes": [
                     "application/json"
                 ],
@@ -183,7 +183,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "User ID",
+                        "description": "User Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {

@@ -49,6 +49,7 @@ func (handler *Handler) execute(command *Command) (string, error) {
 		EndAt:       endAt,
 		Description: command.Description,
 		CreatedAt:   time.Now(),
+		Project:     "Default",
 	}
 
 	if err := handler.repo.Save(&activity); err != nil {

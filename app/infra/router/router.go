@@ -57,3 +57,7 @@ func GetChiRouter(sm *session.Manager) http.Handler {
 
 	return chiRouter
 }
+
+func GetURLParam(paramName string, r *http.Request) string {
+	return chi.URLParam(r, paramName)
+}

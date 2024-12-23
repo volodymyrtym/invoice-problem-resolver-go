@@ -33,6 +33,78 @@ main {
     border-bottom: 1px solid #d4d4d4;
     margin: 15px 0;
   }
+
+  .filter {
+      margin: 1rem auto;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+
+      // Стили заголовка форми
+      .form-title {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 1rem;
+          text-align: center;
+      }
+
+      fieldset {
+          border: none;
+          padding: 0;
+
+          // Адаптивне розташування для вхідних полів
+          .pure-g {
+              margin: 0 -0.5rem;
+
+              > div {
+                  padding: 0 0.5rem;
+                  margin-bottom: 1rem;
+
+                  // Поля вводу
+                  input[type="date"] {
+                      font-size: 1rem;
+                      padding: 0.5rem;
+                      border: 1px solid #ddd;
+                      border-radius: 4px;
+                      width: 100%;
+                  }
+              }
+          }
+
+          // Стили для кнопок
+          .button-group {
+              display: flex;
+              justify-content: center;
+              gap: 1rem;
+
+              button {
+                  padding: 0.5rem 1.5rem;
+                  font-size: 1rem;
+                  border-radius: 4px;
+
+                  &.pure-button-primary {
+                      background-color: #0078e7;
+                      color: #fff;
+
+                      &:hover {
+                          background-color: #005bb5;
+                      }
+                  }
+
+                  &.pure-button-secondary {
+                      background-color: #e1e1e1;
+                      color: #333;
+
+                      &:hover {
+                          background-color: #c1c1c1;
+                      }
+                  }
+              }
+          }
+      }
+  }
 }
 
 .activity-container {

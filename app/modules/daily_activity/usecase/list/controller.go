@@ -18,13 +18,8 @@ func Controller(handler *Handler) http.HandlerFunc {
 
 		var query Query
 
-		if r.Method == http.MethodPost {
-			if err := r.ParseForm(); err != nil {
-				http.Error(w, "Invalid form data", http.StatusBadRequest)
-				return
-			}
-
-			if page := r.FormValue("page"); page != "" {
+		if r.Method == http.MethodGet {
+			if page := r.URL.Query().Get("page"); page != "" {
 				if pageInt, err := strconv.Atoi(page); err == nil {
 					query.Page = &pageInt
 				} else {
@@ -33,8 +28,12 @@ func Controller(handler *Handler) http.HandlerFunc {
 				}
 			}
 
-			if rangeVal := r.FormValue("range"); rangeVal != "" {
-				query.Range = &rangeVal
+			if rangeStart := r.URL.Query().Get("start_date"); rangeStart != "" {
+				query.StartDate = &rangeStart
+			}
+
+			if rangeEnd := r.URL.Query().Get("end_date"); rangeEnd != "" {
+				query.EndDate = &rangeEnd
 			}
 		}
 

@@ -10,7 +10,7 @@ import (
 func UserSessionIdMiddleware(sm *session.Manager) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			includeRegex := regexp.MustCompile(`^/daily-activities|^/day-offs`)
+			includeRegex := regexp.MustCompile(`^/daily-activities|^/day-offs|^/api/daily-activities|^/api/day-offs`)
 			if !includeRegex.MatchString(r.URL.Path) {
 				next.ServeHTTP(w, r)
 				return

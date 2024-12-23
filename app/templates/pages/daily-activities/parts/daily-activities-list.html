@@ -1,86 +1,90 @@
 <!-- Grouped Activities -->
-<div class="activities-list-container">
+{{ if .Items }}
+<div class="activities-list-container" data-controller="daily-activity-list">
     <!-- Table Header -->
     <div class="activity-header pure-g hide-on-sm">
         <div class="hide-on-sm pure-u-md-3-24"><span>Project</span></div>
-        <div class="hide-on-sm pure-u-md-10-24"><span>Description</span></div>
-        <div class="hide-on-sm pure-u-md-4-24"><span>Time</span></div>
-        <div class="hide-on-sm pure-u-md-4-24"><span>Actions</span></div>
+        <div class="hide-on-sm pure-u-md-14-24"><span>Description</span></div>
+        <div class="hide-on-sm pure-u-md-5-24"><span>Time</span></div>
+        <div class="hide-on-sm pure-u-md-2-24"><span>Actions</span></div>
     </div>
 
-    {{ range $activityGroup := .data.activities }}
+    {{ range .Items }}
     <!-- Activity Group Wrapper -->
     <div class="activity-group">
         <!-- Group Header -->
         <div class="activity-group-header pure-g">
-            <div class="hide-on-sm pure-u-md-15-24"></div>
+            <div class="hide-on-sm pure-u-md-3-24"></div>
+            <div class="hide-on-sm pure-u-md-14-24"></div>
             <div class="pure-u-2-3 pure-u-md-5-24">
-                <span>Total: {{$activityGroup.duration.hours}}h {{$activityGroup.duration.minutes}}m</span>
+                <span>Total: {{ .DurationHours }}h {{ .DurationMinutes }}m</span>
                 <button
                         class="pure-button button-xsmall button-success"
                         title="Create new activity in this group"
                         type="button"
-                >+</button>
+                >+
+                </button>
             </div>
-            <div class="pure-u-1-4 pure-u-md-4-24">
-                <span class="date">{{$activityGroup.date}}</span>
+            <div class="pure-u-1-4 pure-u-md-2-24">
+                <span class="date"><i class="si-calendar"></i> {{ .Date }}</span>
             </div>
         </div>
-
-        {{ range $item := $activityGroup.items }}
+        {{ range .Activity }}
         <!-- Individual Activity Item -->
         <form class="pure-form">
             <div class="activity-item pure-g">
                 <div class="pure-u-1 pure-u-md-3-24 project">
-                    {{ if $item.projectName }}
-                    <span>{{ $item.projectName }}</span>
-                    {{ else }}
-                    <span>Default</span>
-                    {{ end }}
+                    <span>{{ .ProjectName }}</span>
                 </div>
-                <div class="pure-u-1-1 pure-u-md-13-24">
-                    <span>{{ $item.description }}</span>
+                <div class="pure-u-1-1 pure-u-md-14-24">
+                    <span>{{ .Description }}</span>
                 </div>
-                <div class="pure-u-1-1 pure-u-md-4-24">
-                    <span>{{ $item.duration.hours }}h {{ $item.duration.minutes }}m</span>
+                <div class="pure-u-1-1 pure-u-md-5-24">
+                    <span class="date">{{ .StartAt }} - {{ .EndAt }}</span>
+                    <span><i class="si-clock"></i> {{ .DurationHours }}h {{ .DurationMinutes }}m</span>
                 </div>
-                <div class="pure-u-1-1 pure-u-md-4-24 actions">
-                    <button
-                            class="pure-button button-secondary button-xsmall"
-                            title="Edit this activity"
-                            type="button"
-                    >Edit</button>
-                    <button
+                <div class="pure-u-1-1 pure-u-md-2-24 actions">
+                    <button data-id="{{.Id}}"
                             class="pure-button button-error button-xsmall"
+                            data-action="click->daily-activity-list#handleDelete"
                             title="Delete this activity"
                             type="button"
-                    >Delete</button>
+                    >Delete
+                    </button>
                 </div>
             </div>
         </form>
         {{ end }}
     </div>
     {{ end }}
-
-    <!-- Pagination -->
     <div class="pure-g">
         <div class="pure-u-1 pagination">
-            <button
-                    class="pure-button button-small button-secondary"
-                    title="Go to the previous page"
-                    type="button"
-                    {{ if not .data.hasPrevPage }}disabled{{ end }}
-            >
-                Previous
-            </button>
-            <button
-                    class="pure-button button-small button-secondary"
-                    title="Go to the next page"
-                    type="button"
-                    {{ if not .data.hasNextPage }}disabled{{ end }}
-            >
-                Next
-            </button>
+                <button
+                        class="pure-button button-small button-secondary"
+                        title="Go to the previous page"
+                        type="button"
+                        data-action="click->daily-activity-list#goToPreviousPage"
+                        {{ if not .HasPreviousPage }}disabled{{ end }}
+                >
+                    Previous
+                </button>
+                <button
+                        class="pure-button button-small button-secondary"
+                        title="Go to the next page"
+                        type="button"
+                        data-action="click->daily-activity-list#goToNextPage"
+                        {{ if not .HasNextPage }}disabled{{ end }}
+                >
+                    Next
+                </button>
         </div>
     </div>
+    {{ else }}
+    <!-- No Data Message -->
+    <div class="pure-g pure-u-1">
+        <p class="">No activities found. Please add some to get started!</p>
+    </div>
+    {{ end }}
+    <!-- Pagination -->
+
 </div>

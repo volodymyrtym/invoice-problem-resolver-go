@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 )
@@ -19,9 +20,10 @@ func NewDailyActivityRepository(db *sql.DB, ctx context.Context) *DailyActivityR
 }
 
 func (r *DailyActivityRepository) Delete(id string) error {
-	query := "DELETE FROM users WHERE id = ? LIMIT 1"
+	query := "DELETE FROM daily_activity_daily_activities WHERE id = $1"
 	_, err := r.db.ExecContext(r.ctx, query, id)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 
@@ -35,7 +37,7 @@ type CreateDTO struct {
 	EndAt       time.Time
 	Description string
 	CreatedAt   time.Time
-	Project     *string
+	Project     string
 }
 
 func (r *DailyActivityRepository) Save(dto *CreateDTO) error {
@@ -47,16 +49,12 @@ func (r *DailyActivityRepository) Save(dto *CreateDTO) error {
 	return err
 }
 
-type DateRange struct {
-	StartDate time.Time
-	EndDate   time.Time
-}
-
 type GetListFilter struct {
 	Page      *int
 	UserID    string
 	Limit     *int
-	DateRange *DateRange
+	StartDate *time.Time
+	EndDate   *time.Time
 }
 
 type ListQueryResult struct {
@@ -79,9 +77,15 @@ func (r *DailyActivityRepository) GetList(filter *GetListFilter) (*ListQueryResu
 	args = append(args, filter.UserID)
 	whereClauses = append(whereClauses, "user_id = $1")
 
-	if filter.DateRange != nil {
-		args = append(args, filter.DateRange.StartDate, filter.DateRange.EndDate)
+	if filter.StartDate != nil && filter.EndDate != nil {
+		args = append(args, filter.StartDate, filter.EndDate)
 		whereClauses = append(whereClauses, "DATE(start_at) BETWEEN $2 AND $3")
+	} else if filter.StartDate != nil {
+		args = append(args, filter.StartDate)
+		whereClauses = append(whereClauses, "DATE(start_at) >= $2")
+	} else if filter.EndDate != nil {
+		args = append(args, filter.EndDate)
+		whereClauses = append(whereClauses, "DATE(start_at) <= $2")
 	}
 
 	sqlQuery := fmt.Sprintf(`
@@ -91,6 +95,8 @@ func (r *DailyActivityRepository) GetList(filter *GetListFilter) (*ListQueryResu
 		ORDER BY start_at DESC
 	`, joinWhereClauses(whereClauses))
 
+	fmt.Println("sqlQuery: ", sqlQuery)
+	fmt.Println("args: ", args)
 	if filter.Page != nil && filter.Limit != nil {
 		offset := (*filter.Page - 1) * *filter.Limit
 		sqlQuery += fmt.Sprintf(" LIMIT %d OFFSET %d", filter.Limit, offset)
@@ -105,21 +111,15 @@ func (r *DailyActivityRepository) GetList(filter *GetListFilter) (*ListQueryResu
 	var items []QueryItem
 	for rows.Next() {
 		var item QueryItem
-		var startAt, endAt string
-		if err := rows.Scan(&item.ID, &item.ProjectName, &startAt, &endAt, &item.Description); err != nil {
+		var startAt, endAt time.Time
+		var projectName sql.NullString
+		if err := rows.Scan(&item.ID, &projectName, &startAt, &endAt, &item.Description); err != nil {
+			log.Println("error", err)
 			return nil, err
 		}
-
-		item.StartAt, err = time.Parse(time.RFC3339, startAt)
-		if err != nil {
-			return nil, err
-		}
-
-		item.EndAt, err = time.Parse(time.RFC3339, endAt)
-		if err != nil {
-			return nil, err
-		}
-
+		item.ProjectName = projectName.String
+		item.StartAt = startAt
+		item.EndAt = endAt
 		items = append(items, item)
 	}
 
@@ -170,7 +170,7 @@ func joinWhereClauses(clauses []string) string {
 }
 
 func (r *DailyActivityRepository) IsOwner(id string, userId string) (bool, error) {
-	query := "SELECT 1 FROM user_users WHERE id = ? AND user_id=? LIMIT 1"
+	query := "SELECT 1 FROM daily_activity_daily_activities WHERE id = $1 AND user_id = $2 LIMIT 1"
 	var exists int
 	err := r.db.QueryRowContext(r.ctx, query, id, userId).Scan(&exists)
 	if err != nil {

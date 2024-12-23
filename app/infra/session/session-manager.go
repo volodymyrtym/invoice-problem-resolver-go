@@ -1,12 +1,14 @@
 package session
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gorilla/sessions"
 )
 
 const userIdKey = "userId"
+const msgKey = "msg"
 
 type Manager struct {
 	store      *sessions.FilesystemStore
@@ -16,6 +18,12 @@ type Manager struct {
 func NewSessionManager(path, secretKey, sessionKey string) *Manager {
 	store := sessions.NewFilesystemStore(path, []byte(secretKey))
 	store.MaxLength(0)
+	store.Options = &sessions.Options{
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   false,
+		MaxAge:   3600 * 12,
+	}
 	return &Manager{store: store, sessionKey: sessionKey}
 }
 
@@ -79,4 +87,44 @@ func (sm *Manager) deleteValue(w http.ResponseWriter, r *http.Request, key strin
 
 	delete(session.Values, key)
 	return session.Save(r, w)
+}
+
+func (sm *Manager) AddInfoMessage(w http.ResponseWriter, r *http.Request, msg string) error {
+	sm.addMessage(w, r, "success", msg)
+
+	return nil
+}
+
+func (sm *Manager) AddWarningMessage(w http.ResponseWriter, r *http.Request, msg string) error {
+	sm.addMessage(w, r, "success", msg)
+
+	return nil
+}
+
+func (sm *Manager) retrieveMessages(w http.ResponseWriter, r *http.Request) (interface{}, error) {
+	return sm.getValue(r, msgKey)
+}
+
+func (sm *Manager) addMessage(w http.ResponseWriter, r *http.Request, msgType string, msg string) error {
+	value, err := sm.getValue(r, msgKey)
+	if err != nil {
+		log.Printf("Error retrieving value: %v", err)
+		return nil
+	}
+
+	prevMsgs, ok := value.([]map[string]string)
+	if !ok {
+		log.Println("Type assertion to []map[string]string failed")
+		return nil
+	}
+
+	newMessage := map[string]string{
+		"type": msgType,
+		"msg":  msg,
+	}
+
+	messages := append(prevMsgs, newMessage)
+	sm.setValue(w, r, msgKey, messages)
+
+	return nil
 }

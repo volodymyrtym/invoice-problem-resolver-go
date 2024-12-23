@@ -11,6 +11,6 @@ import (
 func RegisterRoutes(deps *Dependencies) {
 	router.AddRoute("/daily-activities/index", http.MethodGet, list.Controller(deps.listHandler))
 	router.AddRoute("/daily-activities/index", http.MethodPost, list.Controller(deps.listHandler))
-	router.AddRoute("/daily-activities", http.MethodDelete, delete.Controller(deps.repo))
-	router.AddRoute("/daily-activities", http.MethodPost, create.Controller(deps.createHandler))
+	router.AddRoute("/api/daily-activities/{id}", http.MethodDelete, delete.Controller(deps.repo))
+	router.AddRoute("/api/daily-activities", http.MethodPost, create.Controller(deps.createHandler))
 }

@@ -1,6 +1,10 @@
 package list
 
-import "ipr/modules/daily_activity/repository"
+import (
+	"ipr/modules/daily_activity/repository"
+	"sort"
+	"time"
+)
 
 type ResultItemsBuilder struct {
 }
@@ -9,15 +13,17 @@ type DailyActivitiesCollection struct {
 	Date            string              `json:"date"`
 	DurationHours   int                 `json:"hours"`
 	DurationMinutes int                 `json:"minutes"`
-	Items           []DailyActivityItem `json:"items"`
+	Activity        []DailyActivityItem `json:"activities"`
 }
 
 type DailyActivityItem struct {
-	ID              string  `json:"id"`
-	ProjectName     *string `json:"projectName"`
-	DurationHours   int     `json:"hours"`
-	DurationMinutes int     `json:"minutes"`
-	Description     string  `json:"description"`
+	Id              string `json:"id"`
+	ProjectName     string `json:"projectName"`
+	DurationHours   int    `json:"hours"`
+	DurationMinutes int    `json:"minutes"`
+	Description     string `json:"description"`
+	StartAt         string `json:"startAt"`
+	EndAt           string `json:"endAt"`
 }
 
 func NewResultItemsBuilder() *ResultItemsBuilder {
@@ -39,27 +45,41 @@ func (b *ResultItemsBuilder) build(items []repository.QueryItem) []DailyActiviti
 		DurationHours, DurationMinutes := toHoursWithMinutes(durationInSeconds)
 
 		grouped[date] = append(grouped[date], DailyActivityItem{
-			ID:              item.ID,
-			ProjectName:     &item.ProjectName,
+			Id:              item.ID,
+			ProjectName:     item.ProjectName,
 			DurationHours:   DurationHours,
 			DurationMinutes: DurationMinutes,
 			Description:     item.Description,
+			StartAt:         item.StartAt.Format("15:04"),
+			EndAt:           item.EndAt.Format("15:04"),
 		})
 
 		groupedDurationInSeconds[date] += durationInSeconds
 	}
 
 	var result []DailyActivitiesCollection
-	for date, groupedItems := range grouped {
+	for date, activities := range grouped {
+		sort.Slice(activities, func(i, j int) bool {
+			t1, _ := time.Parse("15:04", activities[i].StartAt)
+			t2, _ := time.Parse("15:04", activities[j].StartAt)
+			return t1.Before(t2)
+		})
+
 		groupDurationHours, groupDurationMinutes := toHoursWithMinutes(groupedDurationInSeconds[date])
 
 		result = append(result, DailyActivitiesCollection{
 			Date:            date,
 			DurationHours:   groupDurationHours,
 			DurationMinutes: groupDurationMinutes,
-			Items:           groupedItems,
+			Activity:        activities,
 		})
 	}
+
+	sort.Slice(result, func(i, j int) bool {
+		t1, _ := time.Parse("02.01.2006", result[i].Date)
+		t2, _ := time.Parse("02.01.2006", result[j].Date)
+		return t2.Before(t1)
+	})
 
 	return result
 }

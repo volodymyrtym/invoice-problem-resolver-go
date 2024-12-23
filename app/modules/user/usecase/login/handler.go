@@ -4,6 +4,7 @@ import (
 	"ipr/modules/user/repository"
 	"ipr/modules/user/service/password"
 	"ipr/shared"
+	"time"
 )
 
 type UserLoginHandler struct {
@@ -30,7 +31,7 @@ func (handler *UserLoginHandler) execute(command *command) (string, error) {
 		return "", shared.NewInvalidInputError("wrong password")
 	}
 
-	handler.repo.UpdateLastLogin(user.Id)
+	handler.repo.UpdateLastLogin(user.Id, time.Now())
 
 	return user.Id, nil
 }

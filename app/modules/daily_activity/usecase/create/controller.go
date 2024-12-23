@@ -15,7 +15,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param request body Command true "Request payload"
-// @Success 201 {object} map[string]string "Created resource ID"
+// @Success 201 {object} map[string]string "Created resource Id"
 // @Failure 400 {object} map[string]string "Invalid JSON"
 // @Failure 401 {object} map[string]string "Unauthorized"
 // @Failure 500 {object} map[string]string "Internal server error"

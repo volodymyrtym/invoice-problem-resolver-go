@@ -11,7 +11,7 @@ import (
 func RenderController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := map[string]interface{}{
-			"message": "test",
+			"message": "Registration is turned off",
 		}
 
 		template.RenderTemplate(w, r, "pages/login/login.html", data)
@@ -20,12 +20,12 @@ func RenderController() http.HandlerFunc {
 
 // HandlerController
 // @Summary User Login Handler
-// @Description Handles user login by processing login commands, setting session, and returning the user ID.
+// @Description Handles user login by processing login commands, setting session, and returning the user Id.
 // @Tags User
 // @Accept json
 // @Produce json
 // @Param command body command true "User login command"
-// @Success 200 {object} map[string]string "User ID"
+// @Success 200 {object} map[string]string "User Id"
 // @Failure 400 {string} string "Invalid JSON"
 // @Failure 500 {object} string "Internal Server Error"
 // @Router /users/login [post]
