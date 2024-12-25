@@ -30,9 +30,9 @@ export default class extends Controller {
                 showErrorMessage(this.statusMessageTarget, data.error || "An error occurred");
             } else {
                 showSuccessMessage(this.statusMessageTarget, "Login successful!");
-                //setTimeout(() => {
-                    window.location.href = "/daily-activities/index";
-              //  }, 1000);
+                setTimeout(() => {
+                    window.location.href = "/daily-activities";
+                }, 500);
             }
         } catch (error) {
             showErrorMessage(this.statusMessageTarget, "A network error occurred. Please try again.");
