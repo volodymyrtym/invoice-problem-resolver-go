@@ -8,6 +8,7 @@ import (
 	"ipr/infra/session"
 	"ipr/infra/template"
 	"ipr/modules/daily_activity"
+	"ipr/modules/day_off"
 	"log"
 	"net/http"
 	"os"
@@ -44,6 +45,10 @@ func main() {
 	// > module daily_activity
 	daily_activity.RegisterRoutes(daily_activity.NewDependencies(db, ctx))
 	// < module daily_activity
+	// > module day_off
+	day_off.RegisterRoutes(day_off.NewDependencies(db, ctx))
+	// < module day_off
+
 	//swagger route
 	if isDev {
 		router.AddRoute("/swagger/*", http.MethodGet, httpSwagger.WrapHandler)

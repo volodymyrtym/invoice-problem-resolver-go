@@ -16,7 +16,7 @@ import (
 // @Success	  204  "No Content"
 // @Failure	  401  "Unauthorized"
 // @Failure	  500  "Internal Server Error"
-// @Router	   /daily-activity [delete]
+// @Router	   /api/daily-activity/{id} [delete]
 func Controller(repo *repository.DailyActivityRepository) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := router.GetURLParam("id", r)

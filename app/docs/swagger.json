@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/daily-activities": {
+        "/api/daily-activities": {
             "post": {
                 "description": "This endpoint allows creating a new resource with a provided JSON payload.",
                 "consumes": [
@@ -30,7 +30,7 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created resource ID",
+                        "description": "Created resource Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -68,9 +68,9 @@
                 }
             }
         },
-        "/daily-activity": {
+        "/api/daily-activity/{id}": {
             "delete": {
-                "description": "Deletes a daily activity by its ID.",
+                "description": "Deletes a daily activity by its Id.",
                 "tags": [
                     "daily-activity"
                 ],
@@ -78,7 +78,7 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The ID of the daily activity",
+                        "description": "The Id of the daily activity",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -97,9 +97,73 @@
                 }
             }
         },
-        "/users": {
+        "/api/day-off/policies": {
             "post": {
-                "description": "Accepts JSON input and creates a new user, returning the user ID.",
+                "description": "This endpoint allows creating a new resource with a provided JSON payload.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "day-off"
+                ],
+                "summary": "Create a new day off policy",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/create_policy.Command"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created resource Id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid JSON",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "post": {
+                "description": "Accepts JSON input and creates a new user, returning the user Id.",
                 "consumes": [
                     "application/json"
                 ],
@@ -123,7 +187,7 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "User ID",
+                        "description": "User Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -148,7 +212,7 @@
         },
         "/users/login": {
             "post": {
-                "description": "Handles user login by processing login commands, setting session, and returning the user ID.",
+                "description": "Handles user login by processing login commands, setting session, and returning the user Id.",
                 "consumes": [
                     "application/json"
                 ],
@@ -172,7 +236,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User ID",
+                        "description": "User Id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -221,6 +285,20 @@
                     "type": "string"
                 },
                 "Password": {
+                    "type": "string"
+                }
+            }
+        },
+        "create_policy.Command": {
+            "type": "object",
+            "properties": {
+                "approvable": {
+                    "type": "boolean"
+                },
+                "halfDay": {
+                    "type": "boolean"
+                },
+                "name": {
                     "type": "string"
                 }
             }

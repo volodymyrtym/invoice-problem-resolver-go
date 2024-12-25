@@ -20,7 +20,7 @@ type UserCreateResponse struct {
 // @Success 201 {object} map[string]string "User Id"
 // @Failure 400 {string} string "Invalid JSON"
 // @Failure 500 {string} string "Internal Server Error"
-// @Router /users [post]
+// @Router /api/users [post]
 func HandleController(handler *UserCreateHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var command command

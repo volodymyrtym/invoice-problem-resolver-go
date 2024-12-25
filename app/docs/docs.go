@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/daily-activities": {
+        "/api/daily-activities": {
             "post": {
                 "description": "This endpoint allows creating a new resource with a provided JSON payload.",
                 "consumes": [
@@ -79,7 +79,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/daily-activity": {
+        "/api/daily-activity/{id}": {
             "delete": {
                 "description": "Deletes a daily activity by its Id.",
                 "tags": [
@@ -108,7 +108,71 @@ const docTemplate = `{
                 }
             }
         },
-        "/users": {
+        "/api/day-off/policies": {
+            "post": {
+                "description": "This endpoint allows creating a new resource with a provided JSON payload.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "day-off"
+                ],
+                "summary": "Create a new day off policy",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/create_policy.Command"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created resource Id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid JSON",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
             "post": {
                 "description": "Accepts JSON input and creates a new user, returning the user Id.",
                 "consumes": [
@@ -232,6 +296,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "Password": {
+                    "type": "string"
+                }
+            }
+        },
+        "create_policy.Command": {
+            "type": "object",
+            "properties": {
+                "approvable": {
+                    "type": "boolean"
+                },
+                "halfDay": {
+                    "type": "boolean"
+                },
+                "name": {
                     "type": "string"
                 }
             }

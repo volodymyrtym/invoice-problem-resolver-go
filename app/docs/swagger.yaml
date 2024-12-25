@@ -17,6 +17,15 @@ definitions:
       Password:
         type: string
     type: object
+  create_policy.Command:
+    properties:
+      approvable:
+        type: boolean
+      halfDay:
+        type: boolean
+      name:
+        type: string
+    type: object
   login.command:
     properties:
       Email:
@@ -27,7 +36,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /daily-activities:
+  /api/daily-activities:
     post:
       consumes:
       - application/json
@@ -44,7 +53,7 @@ paths:
       - application/json
       responses:
         "201":
-          description: Created resource ID
+          description: Created resource Id
           schema:
             additionalProperties:
               type: string
@@ -70,11 +79,11 @@ paths:
       summary: Create a new daily-activity
       tags:
       - daily-activity
-  /daily-activity:
+  /api/daily-activity/{id}:
     delete:
-      description: Deletes a daily activity by its ID.
+      description: Deletes a daily activity by its Id.
       parameters:
-      - description: The ID of the daily activity
+      - description: The Id of the daily activity
         in: query
         name: id
         required: true
@@ -89,11 +98,54 @@ paths:
       summary: Delete Daily Activity
       tags:
       - daily-activity
-  /users:
+  /api/day-off/policies:
     post:
       consumes:
       - application/json
-      description: Accepts JSON input and creates a new user, returning the user ID.
+      description: This endpoint allows creating a new resource with a provided JSON
+        payload.
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/create_policy.Command'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created resource Id
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid JSON
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new day off policy
+      tags:
+      - day-off
+  /api/users:
+    post:
+      consumes:
+      - application/json
+      description: Accepts JSON input and creates a new user, returning the user Id.
       parameters:
       - description: User creation payload
         in: body
@@ -105,7 +157,7 @@ paths:
       - application/json
       responses:
         "201":
-          description: User ID
+          description: User Id
           schema:
             additionalProperties:
               type: string
@@ -126,7 +178,7 @@ paths:
       consumes:
       - application/json
       description: Handles user login by processing login commands, setting session,
-        and returning the user ID.
+        and returning the user Id.
       parameters:
       - description: User login command
         in: body
@@ -138,7 +190,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: User ID
+          description: User Id
           schema:
             additionalProperties:
               type: string

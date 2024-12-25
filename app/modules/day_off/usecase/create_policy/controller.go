@@ -1,17 +1,17 @@
-package create
+package create_policy
 
 import (
 	"encoding/json"
 	"ipr/infra/router/middleware"
-	"ipr/modules/daily_activity/authorization"
+	"ipr/modules/day_off/authorization"
 	"ipr/shared"
 	"net/http"
 )
 
 // Controller
-// @Summary Create a new daily-activity
+// @Summary Create a new day off policy
 // @Description This endpoint allows creating a new resource with a provided JSON payload.
-// @Tags daily-activity
+// @Tags day-off
 // @Accept json
 // @Produce json
 // @Param request body Command true "Request payload"
@@ -19,10 +19,10 @@ import (
 // @Failure 400 {object} map[string]string "Invalid JSON"
 // @Failure 401 {object} map[string]string "Unauthorized"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Router /api/daily-activities [post]
+// @Router /api/day-off/policies [post]
 func Controller(h *Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		err := authorization.ErrorOnNotAuthorized(w, r, nil)
+		err := authorization.ErrorOnPolicyNotAuthorized(w, r, nil)
 		if err != nil {
 			return
 		}
@@ -43,7 +43,7 @@ func Controller(h *Handler) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(struct {
-			ID string `json:"id"`
-		}{ID: createdID})
+			Id string `json:"id"`
+		}{Id: createdID})
 	}
 }
