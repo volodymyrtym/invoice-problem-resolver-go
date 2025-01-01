@@ -8,26 +8,26 @@ import (
 )
 
 type Validator struct {
-	MinLength      int
-	MaxLength      int
-	ForbiddenChars []rune
+	minLength      int
+	maxLength      int
+	forbiddenChars []rune
 }
 
 func NewPasswordValidator() *Validator {
 	return &Validator{
-		MinLength:      8,
-		MaxLength:      64,
-		ForbiddenChars: []rune{' ', '\t', '\n', '\r', '\'', '"', '\\', '<', '>'},
+		minLength:      8,
+		maxLength:      64,
+		forbiddenChars: []rune{' ', '\t', '\n', '\r', '\'', '"', '\\', '<', '>'},
 	}
 }
 
 func (pv *Validator) Validate(password string) error {
 	length := utf8.RuneCountInString(password)
-	if length < pv.MinLength || length > pv.MaxLength {
-		return fmt.Errorf("password must be between %d and %d characters", pv.MinLength, pv.MaxLength)
+	if length < pv.minLength || length > pv.maxLength {
+		return fmt.Errorf("password must be between %d and %d characters", pv.minLength, pv.maxLength)
 	}
 
-	for _, char := range pv.ForbiddenChars {
+	for _, char := range pv.forbiddenChars {
 		if containsRune(password, char) {
 			return fmt.Errorf("forbidden password character `%c`", char)
 		}

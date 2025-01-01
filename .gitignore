@@ -1,1 +1,2 @@
-.fleet
+docker/logs
+docker/postgres_db

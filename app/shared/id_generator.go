@@ -1,10 +1,10 @@
-package idgenerator
+package shared
 
 import (
 	"github.com/google/uuid"
 )
 
-func GenerateUserID() (string, error) {
+func GenerateGuid() (string, error) {
 	id, err := uuid.NewRandom()
 	if err != nil {
 		return "", err

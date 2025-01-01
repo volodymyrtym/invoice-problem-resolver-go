@@ -1,0 +1,50 @@
+.status-message {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 10px;
+  border-radius: 4px;
+  padding: 10px 15px;
+  display: none;
+  transition: all 0.3s ease;
+
+  &.error-message {
+    background-color: #ffe6e6; // Світло-червоний
+    border: 1px solid #d8000c; // Червона рамка
+    color: #d8000c; // Червоний текст
+  }
+
+  &.success-message {
+    background-color: #e6ffe6; // Світло-зелений
+    border: 1px solid #008000; // Зелена рамка
+    color: #008000; // Зелений текст
+  }
+
+  &.loading-message {
+    background-color: #f0f0f0; // Світло-сірий фон
+    border: 1px solid #ccc; // Сіра рамка
+    color: #333; // Темно-сірий текст
+  }
+
+  .dots::after {
+    content: '';
+    display: inline-block;
+    animation: dots 1.5s steps(3, end) infinite;
+  }
+
+  @keyframes dots {
+    0% {
+      content: '';
+    }
+    33% {
+      content: '.';
+    }
+    66% {
+      content: '..';
+    }
+    100% {
+      content: '...';
+    }
+  }
+}
+

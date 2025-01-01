@@ -1,0 +1,6 @@
+main
+.env.local
+var
+static/js
+static/css
+node-modules

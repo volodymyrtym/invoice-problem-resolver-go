@@ -1,0 +1,93 @@
+@use 'parts/nav';
+@use 'parts/pagination';
+@use 'parts/footer';
+@use 'parts/messages';
+@use 'variables';
+
+html, body {
+  height: 100%; /* Забезпечує, що body займає всю висоту сторінки */
+  margin: 0;
+}
+
+body {
+  font-family:  variables.$font-family;
+  background-color: variables.$background-color;
+  color: variables.$text-color;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.button-xsmall {
+  font-size: 70%;
+}
+.button-small {
+  font-size: 85%;
+}
+.button-large {
+  font-size: 110%;
+}
+.button-xlarge {
+  font-size: 125%;
+}
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary,
+.button-primary{
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+  background-color: #85bb85;
+}
+
+.button-error {
+  background: rgb(202, 60, 60, 0.6);
+  &:hover {
+    background: rgb(202, 60, 60, 1);
+  }
+}
+
+.button-warning {
+  background: rgb(223, 117, 20);
+}
+
+.button-secondary {
+  background: rgb(66, 184, 221);
+}
+
+.button-primary{
+  background-color: #ff7f50;
+  color: white;
+  &:hover {
+    background-color: #ff6347;
+  }
+}
+
+main {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .hide-on-sm {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hide-on-md {
+    display: none !important;
+  }
+}
+
+
+@media (min-width: 1025px) {
+  .hide-on-lg {
+    display: none !important;
+  }
+}

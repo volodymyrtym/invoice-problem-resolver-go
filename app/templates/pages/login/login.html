@@ -1,0 +1,68 @@
+{{extends "../../layouts/not_logged.html"}}
+{{block title()}}
+Invoice Problem Resolver - time spent reports, time tracking
+{{end}}
+
+{{block styles()}}
+<link rel="stylesheet" href="/static/css/login.css">
+{{end}}
+
+{{block page_content()}}
+<div class="combined-container">
+    <div class="info-container">
+        <h2>Why Use Invoice Problem Resolver?</h2>
+        <ul>
+            <li>Track your working hours and tasks</li>
+            <li>Log your sick days and vacations</li>
+            <li>Stay organized with detailed records</li>
+            <li>Never forget where your time went</li>
+        </ul>
+    </div>
+    <div class="login-container">
+        {{if .message}}
+            <div class="error-message">
+                {{.message}}
+            </div>
+        {{end}}
+
+        <h2 class="login-header">Login</h2>
+        <form data-controller="login" data-action="submit->login#handleSubmit">
+            <div class="login-row">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    autocomplete="on"
+                    required
+                    data-login-target="email"
+                >
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    autocomplete="on"
+                    required
+                    data-login-target="password"
+                    minlength="8"
+                >
+                <button
+                    class="pure-button pure-button-primary"
+                    type="submit"
+                    data-login-target="submitButton"
+                >
+                    Log In
+                </button>
+            </div>
+            <div class="status-message" data-login-target="statusMessage"></div>
+        </form>
+
+        <div class="divider">OR</div>
+        <div class="register-link">
+            <a href="#" class="pure-button pure-button-secondary">Register</a>
+        </div>
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+</div>
+{{end}}

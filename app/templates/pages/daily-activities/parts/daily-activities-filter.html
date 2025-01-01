@@ -1,0 +1,66 @@
+<!-- Statistics Section -->
+<div class="statistics-container">
+    <h2>Statistics</h2>
+    <div class="divider"></div>
+    <h3>Activity</h3>
+    <ul class="activity-statistics-container">
+        <li class="title">Current:</li>
+        <li>Week: <strong>30</strong> hours </li>
+        <li>Month: <strong>65</strong> hours </li>
+        <li class="title previous">Previous:</li>
+        <li>Week: <strong>30</strong> hours </li>
+        <li>Month: <strong>30</strong> hours </li>
+    </ul>
+    <div class="divider"></div>
+    <h3>Filter</h3>
+
+    <div class="filter-container" data-controller="daily-activity-filter">
+        <form method="GET" action="/daily-activities" data-daily-activity-filter-target="form" class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend class="form-title">Filter Activities by Date</legend>
+
+                <div class="pure-g">
+                    <div class="pure-u-1 pure-u-md-1-2">
+                        <label for="start-date">From:</label>
+                        <input
+                                type="date"
+                                id="start-date"
+                                name="start_date"
+                                required
+                                data-daily-activity-filter-target="startDate"
+                                class="pure-input-1"
+                        />
+                    </div>
+                    <div class="pure-u-1 pure-u-md-1-2">
+                        <label for="end-date">To:</label>
+                        <input
+                                type="date"
+                                id="end-date"
+                                name="end_date"
+                                required
+                                data-daily-activity-filter-target="endDate"
+                                class="pure-input-1"
+                        />
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button
+                            type="button"
+                            class="pure-button pure-button-secondary"
+                            data-action="daily-activity-filter#previousMonth"
+                    >
+                        Previous Month
+                    </button>
+                    <button
+                            type="button"
+                            class="pure-button pure-button-secondary"
+                            data-action="daily-activity-filter#currentMonth"
+                    >
+                        Current Month
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
